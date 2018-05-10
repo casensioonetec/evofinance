@@ -1,7 +1,7 @@
 package com.ef.srv.campaigns.api;
 
 import com.ef.srv.campaigns.model.CampaingData;
-import com.evo.api.springboot.exception.EntityNotFoundException;
+import com.ev.arq.srv.api.exception.EntityNotFoundException;
 import com.ef.srv.campaigns.service.CampaignsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.slf4j.Slf4j;
-import com.evo.api.springboot.exception.ApiException;
+import com.ev.arq.srv.api.exception.ApiException;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.*;
 import java.util.List;

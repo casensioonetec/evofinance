@@ -1,8 +1,8 @@
 package com.ef.srv.campaigns.service;
 
 import com.ef.srv.campaigns.model.CampaingData;
-import com.evo.api.springboot.exception.EntityNotFoundException;
-import com.evo.api.springboot.exception.ApiException;
+import com.ev.arq.srv.api.exception.EntityNotFoundException;
+import com.ev.arq.srv.api.exception.ApiException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;

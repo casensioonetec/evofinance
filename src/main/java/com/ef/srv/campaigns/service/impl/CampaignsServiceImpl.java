@@ -2,7 +2,7 @@ package com.ef.srv.campaigns.service.impl;
 
 import com.ef.srv.campaigns.service.CampaignsService;
 import com.ef.srv.campaigns.model.CampaingData;
-import com.evo.api.springboot.exception.EntityNotFoundException;
+import com.ev.arq.srv.api.exception.EntityNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
