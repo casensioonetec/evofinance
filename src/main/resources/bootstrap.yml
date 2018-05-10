@@ -5,10 +5,5 @@ spring:
   cloud:
     config:
       enabled: true
-	  uri: http://spring-cloud-config.svcs.grupoevo.corp
----
-spring:
-  profiles: dev2
-  cloud:
-    config:
       uri: http://spring-cloud-config.svcs.grupoevo.corp
+
