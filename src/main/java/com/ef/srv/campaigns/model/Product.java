@@ -43,7 +43,7 @@ public class Product  implements Serializable {
   @JsonProperty("maxAmount")
   private String maxAmount;
   
-  @JsonProperty("insuranceAmount")
+  @JsonProperty("insuranceAmount") 
   private BigDecimal insuranceAmount;
   
   @JsonProperty("formalisationFee")
