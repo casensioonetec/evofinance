@@ -13,21 +13,19 @@ import java.util.List;
 
 
 /**
- * Finality
- */
+* Finality
+*/
 
 @Data
 @Builder
 public class Finality  implements Serializable {
-  private static final long serialVersionUID = 1L;
+ private static final long serialVersionUID = 1L;
 
-  @JsonProperty("name")
-  private String name;
-  
-  @JsonProperty("products")
-
-  @ApiModelProperty(required = true, value = "Productos")
-  private List<Product> products = new ArrayList<>();
-  
+ @JsonProperty("name")
+ private String name;
+ 
+ @JsonProperty("products")
+ @ApiModelProperty(required = true, value = "Productos")
+ private List<Product> products = new ArrayList<>();
+ 
 }
-

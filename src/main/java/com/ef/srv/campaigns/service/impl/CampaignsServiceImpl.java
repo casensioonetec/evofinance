@@ -9,19 +9,18 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 /**
- * A delegate to be called by the {@link CampaignsController}}.
- * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
+ * A delegate to be called by the {@link CampaignsController}}. Implement this
+ * interface with a {@link org.springframework.stereotype.Service} annotated
+ * class.
  */
 
 @Service
 @Slf4j
-public class CampaignsServiceImpl implements CampaignsService{
+public class CampaignsServiceImpl implements CampaignsService {
 
-    @Override
-    public CampaingData v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException{
-        
-        // TODO Auto-generated method stub
-        return null;
-     }
+	@Override
+	public CampaingData v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException {
+		return null;
+	}
 
 }

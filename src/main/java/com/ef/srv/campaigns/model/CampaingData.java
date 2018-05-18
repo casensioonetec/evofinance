@@ -28,7 +28,6 @@ public class CampaingData  implements Serializable {
   private Boolean vendor;
   
   @JsonProperty("finalities")
-
   @ApiModelProperty(required = true, value = "Finalidades")
   private List<Finality> finalities = new ArrayList<>();
   
