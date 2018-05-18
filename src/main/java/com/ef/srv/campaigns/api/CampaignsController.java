@@ -6,6 +6,7 @@ import com.ef.srv.campaigns.service.CampaignsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,14 @@ public class CampaignsController {
 
     public ResponseEntity<CampaingData> v1CampaignsCampaignCodeGet( @ApiParam(value = "Código de la campaña a descargar",required=true) @PathVariable("campaignCode") String campaignCode) throws EntityNotFoundException{
         return new ResponseEntity<CampaingData>(service.v1CampaignsCampaignCodeGet(campaignCode), HttpStatus.NOT_IMPLEMENTED);
-    }
+		
+//		CampaingData
+//        
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Responded", "MyController");
+//        
+//        return ResponseEntity.accepted().headers(headers).body(c);
+//	
+	}
 
 }
