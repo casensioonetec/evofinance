@@ -1,16 +1,14 @@
 package com.ef.srv.campaigns.model;
 
-import lombok.Builder;
-import lombok.Data;
-import com.ef.srv.campaigns.model.Finality;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * CampaingData
@@ -18,19 +16,17 @@ import java.util.List;
 
 @Data
 @Builder
-public class CampaingData  implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class CampaingData implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-  @JsonProperty("id")
-  private String id;
-  
-  @JsonProperty("vendor")
-  private Boolean vendor;
-  
-  @JsonProperty("finalities")
-  @ApiModelProperty(required = true, value = "Finalidades")
-  private List<Finality> finalities = new ArrayList<>();
-  
+	@JsonProperty("id")
+	private String id;
+
+	@JsonProperty("vendor")
+	private Boolean vendor;
+
+	@JsonProperty("finalities")
+	@ApiModelProperty(required = true, value = "Finalidades")
+	private List<Finality> finalities = new ArrayList<>();
+
 }
-
- 

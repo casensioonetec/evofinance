@@ -1,19 +1,19 @@
 package com.ef.srv.campaigns.service.impl;
 
-import com.ef.srv.campaigns.service.CampaignsService;
-import com.ef.srv.campaigns.model.CampaingData;
-import com.ef.srv.campaigns.model.Finality;
-import com.ef.srv.campaigns.model.Product;
-import com.ev.arq.srv.api.exception.EntityNotFoundException;
-import org.springframework.web.multipart.MultipartFile;
-
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.ef.srv.campaigns.api.CampaignsController;
+import com.ef.srv.campaigns.model.CampaingData;
+import com.ef.srv.campaigns.model.Finality;
+import com.ef.srv.campaigns.model.Product;
+import com.ef.srv.campaigns.service.CampaignsService;
+import com.ev.arq.srv.api.exception.EntityNotFoundException;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A delegate to be called by the {@link CampaignsController}}. Implement this
@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class CampaignsServiceImpl implements CampaignsService {
-  
+
 	@Override
 	public CampaingData v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException {
 
@@ -46,7 +46,7 @@ public class CampaignsServiceImpl implements CampaignsService {
 		listaFinalidades.add(finality);
 		finality = Finality.builder().name("Coche").products(listaProductos).build();
 		listaFinalidades.add(finality);
-		
+
 		CampaingData campaingData = CampaingData.builder().id("12").vendor(false).finalities(listaFinalidades).build();
 
 		return campaingData;
