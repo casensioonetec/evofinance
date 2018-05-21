@@ -42,7 +42,33 @@ public class CampaignsController {
         method = RequestMethod.GET)
 
     public ResponseEntity<CampaingData> v1CampaignsCampaignCodeGet( @ApiParam(value = "Código de la campaña a descargar",required=true) @PathVariable("campaignCode") String campaignCode) throws EntityNotFoundException{
-        return new ResponseEntity<CampaingData>(service.v1CampaignsCampaignCodeGet(campaignCode), HttpStatus.NOT_IMPLEMENTED);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Access-Control-Allow-Origin", "*");
+        return new ResponseEntity<CampaingData>(service.v1CampaignsCampaignCodeGet(campaignCode), headers, HttpStatus.NOT_IMPLEMENTED);
+		
+//		CampaingData
+//        
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Responded", "MyController");
+//        
+//        return ResponseEntity.accepted().headers(headers).body(c);
+//	
+	}
+	
+	@ApiOperation(value = "Recupera todos los datos de una campaña", nickname = "v1CampaignsCampaignCodeGet", notes = "Recupera todos los datos de una campaña para el proceso de contratación", response = CampaingData.class, tags={ "Campaigns", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = CampaingData.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/v1/campaigns/{campaignCode}",
+        produces = { "application/json" }, 
+        method = RequestMethod.OPTIONS)
+
+    public ResponseEntity<CampaingData> v1CampaignsCampaignCodeOptions( ) throws EntityNotFoundException{
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Access-Control-Allow-Origin", "*");
+        return new ResponseEntity<CampaingData>( headers, HttpStatus.NOT_IMPLEMENTED);
 		
 //		CampaingData
 //        
