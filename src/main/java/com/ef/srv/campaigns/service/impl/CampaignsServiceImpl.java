@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class CampaignsServiceImpl implements CampaignsService {
-
+  
 	@Override
 	public CampaingData v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException {
 

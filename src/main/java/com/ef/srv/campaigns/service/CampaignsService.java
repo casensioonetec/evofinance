@@ -23,3 +23,4 @@ public interface CampaignsService {
      */
     CampaingData v1CampaignsCampaignCodeGet(String campaignCode)  throws EntityNotFoundException;    
 }
+ 

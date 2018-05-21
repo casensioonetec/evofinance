@@ -40,7 +40,7 @@ import java.math.BigDecimal;
   @JsonProperty("maxAmount")
   private String maxAmount;
   
-  @JsonProperty("insuranceAmount")
+  @JsonProperty("insuranceAmount") 
   private BigDecimal insuranceAmount;
   
   @JsonProperty("formalisationFee")

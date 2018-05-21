@@ -28,4 +28,4 @@ public class Finality  implements Serializable {
  @ApiModelProperty(required = true, value = "Productos")
  private List<Product> products = new ArrayList<>();
  
-}
+} 
