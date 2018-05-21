@@ -5,9 +5,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.ef.srv.campaigns.model.CampaingData;
 import com.ef.srv.campaigns.service.CampaignsService;
@@ -22,10 +26,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class CampaignsController {
+@EnableWebMvc
+public class CampaignsController extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	private CampaignsService service;
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		super.addCorsMappings(registry);
+		registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "PUT", "POST", "DELETE", "OPTIONS");
+	}
 
 	@ApiOperation(value = "Recupera todos los datos de una campaña", nickname = "v1CampaignsCampaignCodeGet", notes = "Recupera todos los datos de una campaña para el proceso de contratación", response = CampaingData.class, tags = {
 			"Campaigns", })
@@ -36,19 +47,19 @@ public class CampaignsController {
 			"application/json" }, method = RequestMethod.GET)
 
 	public ResponseEntity<CampaingData> v1CampaignsCampaignCodeGet(
-			@ApiParam(value = "Código de la campaña a descargar", required = true) @PathVariable("campaignCode") String campaignCode)
-			throws EntityNotFoundException {
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Access-Control-Allow-Origin", "*");
-		return new ResponseEntity<CampaingData>(service.v1CampaignsCampaignCodeGet(campaignCode), headers,
-				HttpStatus.NOT_IMPLEMENTED);
-
-		// CampaingData
-		//
-		// HttpHeaders headers = new HttpHeaders();
-		// headers.add("Responded", "MyController");
-		//
-		// return ResponseEntity.accepted().headers(headers).body(c);
-		//
+			@ApiParam(value = "Código de la campaña a descargar", required = true) @PathVariable("campaignCode") String campaignCode,
+			@RequestHeader HttpHeaders headers) throws EntityNotFoundException {
+		System.out.println(headers);
+		/*
+		 * HttpHeaders headers = new HttpHeaders(); headers.add("Content-Type",
+		 * "application/json"); headers.add("Access-Control-Allow-Methods",
+		 * "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+		 * headers.add("Access-Control-Allow-Origin", "*");
+		 * headers.add("Access-Control-Allow-Headers",
+		 * "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization,correlationId"
+		 * );
+		 */
+		return new ResponseEntity<CampaingData>(service.v1CampaignsCampaignCodeGet(campaignCode), HttpStatus.OK);
 	}
+
 }
