@@ -13,16 +13,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ef.srv.campaigns.api.CampaignsController;
 import com.ef.srv.campaigns.model.CampaingData;
 import com.ef.srv.campaigns.model.Finality;
-import com.ef.srv.campaigns.model.OAuth2;
 import com.ef.srv.campaigns.model.Product;
 import com.ef.srv.campaigns.service.CampaignsService;
 
