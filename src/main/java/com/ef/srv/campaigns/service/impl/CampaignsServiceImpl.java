@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -54,41 +56,11 @@ public class CampaignsServiceImpl implements CampaignsService {
 		HttpEntity<String> entity = new HttpEntity<String>("", headers);
 
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> result = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity,
+		ResponseEntity<?> oAuth = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity,
 				String.class);
-		System.out.println("TOKEN DETAILS :: " + result.getBody());
 		
-		/*try {
-
-			RestTemplate restTemplate = new RestTemplate();
-			String authURLTest = "https://test.salesforce.com/services/oauth2/token";
-			
-			MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			
-			body.add("grant_type", "password");
-			body.add("client_id", "3MVG9w8uXui2aB_rlAPrAgWPrr3g20tNLVPg9ov9lBaO4n5o8irqj8TpFMoiaHBhySCFO5uAwu8Ud8CuB9ZtS");
-			body.add("client_secret", "5533177683449434149");
-			body.add("username", "evfapiuser@evofinance.com.atmira");
-			body.add("password", "DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp");
-
-//			String a = "grant_type:password\r\n" + 
-//					"client_id:3MVG9w8uXui2aB_rlAPrAgWPrr3g20tNLVPg9ov9lBaO4n5o8irqj8TpFMoiaHBhySCFO5uAwu8Ud8CuB9ZtS\r\n" + 
-//					"client_secret:5533177683449434149\r\n" + 
-//					"username:evfapiuser@evofinance.com.atmira\r\n" + 
-//					"password:DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp";
-			
-			HttpEntity<Object> httpEntity = new HttpEntity<Object>(body, headers);
-
-			ResponseEntity<OAuth2> oAuth = restTemplate.postForEntity(authURLTest, body, OAuth2.class);
-
-			String token = oAuth.getBody().getAccess_token();
-			
-		} catch (HttpClientErrorException e) {
-			System.out.println(e);
-		}
-		*/
+		System.out.println(getToken( oAuth.getBody().toString()));
+		
 		//Construcción del objeto de respuesta
 		Product product = Product.builder()
 				.TIN(new BigDecimal(12341))
@@ -145,4 +117,23 @@ public class CampaignsServiceImpl implements CampaignsService {
 		return campaingData;
 	}
 
+	private String getToken(String responseOAuth2) {
+		String response = "";
+		
+		final String regexType = "token_type=(\\w*)";
+		final Pattern patternType = Pattern.compile(regexType);
+		final Matcher matcherType = patternType.matcher(responseOAuth2);
+		
+		final String regexToken = "access_token\\=(.*?)\\&";
+		final Pattern patternToken = Pattern.compile(regexToken);
+		final Matcher matcherToken = patternToken.matcher(responseOAuth2);
+
+		if (matcherToken.find() && matcherType.find()) {
+			//Devolvemos el indice 1 por que el indice 0 incluye los delimitadores
+			response = matcherType.group(1) + " " + matcherToken.group(1);
+		}
+		
+		return response;
+	}
+	
 }
