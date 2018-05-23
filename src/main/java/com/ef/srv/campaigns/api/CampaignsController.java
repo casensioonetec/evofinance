@@ -49,16 +49,7 @@ public class CampaignsController extends WebMvcConfigurerAdapter {
 	public ResponseEntity<CampaingData> v1CampaignsCampaignCodeGet(
 			@ApiParam(value = "Código de la campaña a descargar", required = true) @PathVariable("campaignCode") String campaignCode,
 			@RequestHeader HttpHeaders headers) throws EntityNotFoundException {
-		System.out.println(headers);
-		/*
-		 * HttpHeaders headers = new HttpHeaders(); headers.add("Content-Type",
-		 * "application/json"); headers.add("Access-Control-Allow-Methods",
-		 * "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-		 * headers.add("Access-Control-Allow-Origin", "*");
-		 * headers.add("Access-Control-Allow-Headers",
-		 * "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization,correlationId"
-		 * );
-		 */
+
 		return new ResponseEntity<CampaingData>(service.v1CampaignsCampaignCodeGet(campaignCode), HttpStatus.OK);
 	}
 
