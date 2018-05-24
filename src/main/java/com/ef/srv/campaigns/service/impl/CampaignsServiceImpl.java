@@ -77,7 +77,6 @@ public class CampaignsServiceImpl implements CampaignsService {
 
 		CampaingData campaingData = new Gson().fromJson(sfResponse.getBody().toString(), CampaingData.class);
 		
-		System.out.println("Todo guay");
 		return campaingData.getData();
 	}
 
