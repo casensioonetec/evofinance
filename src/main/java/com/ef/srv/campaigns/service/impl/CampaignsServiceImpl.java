@@ -37,6 +37,7 @@ public class CampaignsServiceImpl implements CampaignsService {
 	public ArrayList<DataBody> v1CampaignsCampaignCodeGet(String campaignCode) {
 
 		String authURL = "https://test.salesforce.com/services/oauth2/token"; //$NON-NLS-1$
+		String sfURL = "https://evobanco--atmira.cs83.my.salesforce.com/services/apexrest/getCampaignData/v1/"; //$NON-NLS-1$
 
 		UriComponentsBuilder authBuilder = UriComponentsBuilder.fromHttpUrl(authURL)
 				.queryParam(Messages.getString("CampaignsServiceImpl.3"), "5533177683449434149") //$NON-NLS-1$ //$NON-NLS-2$
@@ -44,7 +45,8 @@ public class CampaignsServiceImpl implements CampaignsService {
 						"3MVG9w8uXui2aB_rlAPrAgWPrr3g20tNLVPg9ov9lBaO4n5o8irqj8TpFMoiaHBhySCFO5uAwu8Ud8CuB9ZtS") //$NON-NLS-1$
 				.queryParam(Messages.getString("CampaignsServiceImpl.1"), "password") //$NON-NLS-1$ //$NON-NLS-2$
 				.queryParam(Messages.getString("CampaignsServiceImpl.0"), "evfapiuser@evofinance.com.atmira") //$NON-NLS-1$ //$NON-NLS-2$
-				.queryParam(Messages.getString("CampaignsServiceImpl.4"), "DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp"); //$NON-NLS-1$ //$NON-NLS-2$
+				.queryParam(Messages.getString("CampaignsServiceImpl.4"), //$NON-NLS-1$
+						"DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp"); //$NON-NLS-1$
 
 		HttpHeaders headers = new HttpHeaders();
 		// authHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -58,13 +60,13 @@ public class CampaignsServiceImpl implements CampaignsService {
 
 		// System.out.println(getToken( oAuth.getBody().toString()));
 
-		String sfURL = "https://evobanco--atmira.cs83.my.salesforce.com/services/apexrest/getCampaignData/v1/"; //$NON-NLS-1$
-
+		
 		UriComponentsBuilder sfBuilder = UriComponentsBuilder.fromHttpUrl(sfURL);
 
 		try {
 			headers = new HttpHeaders();
-			headers.add(Messages.getString("CampaignsServiceImpl.5"), Utils.getTokenFromRaw(oAuthResponse.getBody().toString())); //$NON-NLS-1$
+			headers.add(Messages.getString("CampaignsServiceImpl.5"), //$NON-NLS-1$
+					Utils.getTokenFromRaw(oAuthResponse.getBody().toString()));
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,7 +79,7 @@ public class CampaignsServiceImpl implements CampaignsService {
 				sfEntity, String.class);
 
 		CampaingData campaingData = new Gson().fromJson(sfResponse.getBody().toString(), CampaingData.class);
-		
+
 		return campaingData.getData();
 	}
 
