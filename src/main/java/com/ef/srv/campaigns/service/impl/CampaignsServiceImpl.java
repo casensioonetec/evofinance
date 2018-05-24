@@ -1,10 +1,8 @@
 package com.ef.srv.campaigns.service.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,10 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.ef.srv.campaigns.api.CampaignsController;
 import com.ef.srv.campaigns.model.CampaingData;
 import com.ef.srv.campaigns.model.DataBody;
-import com.ef.srv.campaigns.model.Finality;
-import com.ef.srv.campaigns.model.Product;
 import com.ef.srv.campaigns.service.CampaignsService;
-import com.ef.srv.campaigns.util.Messages;
 import com.ef.srv.campaigns.util.Utils;
 import com.google.gson.Gson;
 
@@ -50,11 +45,11 @@ public class CampaignsServiceImpl implements CampaignsService {
 				.queryParam("username", "evfapiuser@evofinance.com.atmira") //$NON-NLS-1$ //$NON-NLS-2$
 				.queryParam("password", "DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		HttpHeaders authHeaders = new HttpHeaders();
+		HttpHeaders headers = new HttpHeaders();
 		// authHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		authHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
 
-		HttpEntity<String> authEntity = new HttpEntity<String>("", authHeaders); //$NON-NLS-1$
+		HttpEntity<String> authEntity = new HttpEntity<String>("", headers); //$NON-NLS-1$
 
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<?> oAuthResponse = restTemplate.exchange(authBuilder.build().encode().toUri(), HttpMethod.POST,
@@ -66,22 +61,23 @@ public class CampaignsServiceImpl implements CampaignsService {
 
 		UriComponentsBuilder sfBuilder = UriComponentsBuilder.fromHttpUrl(sfURL);
 
-		HttpHeaders sfHeaders = new HttpHeaders();
 		try {
-			sfHeaders.add("Authorization", Utils.getTokenFromRaw(oAuthResponse.getBody().toString())); //$NON-NLS-1$
+			headers = new HttpHeaders();
+			headers.add("Authorization", Utils.getTokenFromRaw(oAuthResponse.getBody().toString())); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// sfHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<String> sfEntity = new HttpEntity<String>("", sfHeaders); //$NON-NLS-1$
+		HttpEntity<String> sfEntity = new HttpEntity<String>("", headers); //$NON-NLS-1$
 
 		ResponseEntity<String> sfResponse = restTemplate.exchange(sfBuilder.build().encode().toUri(), HttpMethod.GET,
 				sfEntity, String.class);
 
 		CampaingData campaingData = new Gson().fromJson(sfResponse.getBody().toString(), CampaingData.class);
-
+		
+		System.out.println("Todo guay");
 		return campaingData.getData();
 	}
 
