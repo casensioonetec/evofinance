@@ -1,11 +1,10 @@
 package com.ef.srv.campaigns.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,9 +17,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ef.srv.campaigns.api.CampaignsController;
 import com.ef.srv.campaigns.model.CampaingData;
+import com.ef.srv.campaigns.model.DataBody;
 import com.ef.srv.campaigns.model.Finality;
 import com.ef.srv.campaigns.model.Product;
 import com.ef.srv.campaigns.service.CampaignsService;
+import com.ef.srv.campaigns.util.Messages;
+import com.ef.srv.campaigns.util.Utils;
+import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,101 +38,51 @@ import lombok.extern.slf4j.Slf4j;
 public class CampaignsServiceImpl implements CampaignsService {
 
 	@Override
-	public CampaingData v1CampaignsCampaignCodeGet(String campaignCode) {
+	public ArrayList<DataBody> v1CampaignsCampaignCodeGet(String campaignCode) {
 
-		UriComponentsBuilder builder = UriComponentsBuilder
-				.fromHttpUrl("https://test.salesforce.com/services/oauth2/token")
-				.queryParam("client_secret", "5533177683449434149")
-				.queryParam("client_id",
-						"3MVG9w8uXui2aB_rlAPrAgWPrr3g20tNLVPg9ov9lBaO4n5o8irqj8TpFMoiaHBhySCFO5uAwu8Ud8CuB9ZtS")
-				.queryParam("grant_type", "password").queryParam("username", "evfapiuser@evofinance.com.atmira")
-				.queryParam("password", "DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp");
+		String authURL = "https://test.salesforce.com/services/oauth2/token"; //$NON-NLS-1$
 
-		HttpHeaders headers = new HttpHeaders();
-		// headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
+		UriComponentsBuilder authBuilder = UriComponentsBuilder.fromHttpUrl(authURL)
+				.queryParam("client_secret", "5533177683449434149") //$NON-NLS-1$ //$NON-NLS-2$
+				.queryParam("client_id", //$NON-NLS-1$
+						"3MVG9w8uXui2aB_rlAPrAgWPrr3g20tNLVPg9ov9lBaO4n5o8irqj8TpFMoiaHBhySCFO5uAwu8Ud8CuB9ZtS") //$NON-NLS-1$
+				.queryParam("grant_type", "password") //$NON-NLS-1$ //$NON-NLS-2$
+				.queryParam("username", "evfapiuser@evofinance.com.atmira") //$NON-NLS-1$ //$NON-NLS-2$
+				.queryParam("password", "DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		HttpEntity<String> entity = new HttpEntity<String>("", headers);
+		HttpHeaders authHeaders = new HttpHeaders();
+		// authHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		authHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
+
+		HttpEntity<String> authEntity = new HttpEntity<String>("", authHeaders); //$NON-NLS-1$
 
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<?> oAuth = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.POST, entity,
-				String.class);
-		
-		System.out.println(getToken( oAuth.getBody().toString()));
-		
-		//Construcción del objeto de respuesta
-		Product product = Product.builder()
-				.TIN(new BigDecimal(12341))
-				.codProd("adsfasdfa")
-				.TAE(new BigDecimal(123))
-				.optionalInsurance(false)
-				.minMonths("1")
-				.maxMonths("25")
-				.minAmount("1")
-				.maxAmount("1232323")
-				.insuranceAmount(new BigDecimal(12312312))
-				.formalisationFee(new BigDecimal(12312312))
-				.earlyRepayFirst12Months("asdfas")
-				.earlyRepayAfter12Months("aasdfasd")
-				.build();
-		
-		List<Product> listaProductos = new ArrayList<Product>();
-		listaProductos.add(product);
-		
-		product = Product.builder()
-				.TIN(new BigDecimal(12341))
-				.codProd("adsfasdfa")
-				.TAE(new BigDecimal(123))
-				.optionalInsurance(false)
-				.minMonths("1")
-				.maxMonths("25")
-				.minAmount("1")
-				.maxAmount("1232323")
-				.insuranceAmount(new BigDecimal(12312312))
-				.formalisationFee(new BigDecimal(12312312))
-				.earlyRepayFirst12Months("asdfas")
-				.earlyRepayAfter12Months("aasdfasd")
-				.build();
-		
-		listaProductos.add(product);
+		ResponseEntity<?> oAuthResponse = restTemplate.exchange(authBuilder.build().encode().toUri(), HttpMethod.POST,
+				authEntity, String.class);
 
-		Finality finality = Finality.builder()
-				.name("Coche")
-				.products(listaProductos)
-				.build();
+		// System.out.println(getToken( oAuth.getBody().toString()));
 
-		List<Finality> listaFinalidades = new ArrayList<Finality>();
-		listaFinalidades.add(finality);
-		
-		finality = Finality.builder()
-				.name("Coche")
-				.products(listaProductos)
-				.build();
-		
-		listaFinalidades.add(finality);
+		String sfURL = "https://evobanco--atmira.cs83.my.salesforce.com/services/apexrest/getCampaignData/v1/"; //$NON-NLS-1$
 
-		CampaingData campaingData = CampaingData.builder().id("12").vendor(false).finalities(listaFinalidades).build();
+		UriComponentsBuilder sfBuilder = UriComponentsBuilder.fromHttpUrl(sfURL);
 
-		return campaingData;
-	}
-
-	private String getToken(String responseOAuth2) {
-		String response = "";
-		
-		final String regexType = "token_type=(\\w*)";
-		final Pattern patternType = Pattern.compile(regexType);
-		final Matcher matcherType = patternType.matcher(responseOAuth2);
-		
-		final String regexToken = "access_token\\=(.*?)\\&";
-		final Pattern patternToken = Pattern.compile(regexToken);
-		final Matcher matcherToken = patternToken.matcher(responseOAuth2);
-
-		if (matcherToken.find() && matcherType.find()) {
-			//Devolvemos el indice 1 por que el indice 0 incluye los delimitadores
-			response = matcherType.group(1) + " " + matcherToken.group(1);
+		HttpHeaders sfHeaders = new HttpHeaders();
+		try {
+			sfHeaders.add("Authorization", Utils.getTokenFromRaw(oAuthResponse.getBody().toString())); //$NON-NLS-1$
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		return response;
+		// sfHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> sfEntity = new HttpEntity<String>("", sfHeaders); //$NON-NLS-1$
+
+		ResponseEntity<String> sfResponse = restTemplate.exchange(sfBuilder.build().encode().toUri(), HttpMethod.GET,
+				sfEntity, String.class);
+
+		CampaingData campaingData = new Gson().fromJson(sfResponse.getBody().toString(), CampaingData.class);
+
+		return campaingData.getData();
 	}
-	
+
 }

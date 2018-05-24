@@ -22,6 +22,7 @@ public class Finality implements Serializable {
 	@JsonProperty("name")
 	private String name;
 
+	@Builder.Default
 	@JsonProperty("products")
 	@ApiModelProperty(required = true, value = "Productos")
 	private List<Product> products = new ArrayList<>();

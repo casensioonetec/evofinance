@@ -1,7 +1,9 @@
 package com.ef.srv.campaigns.service;
 
+import java.util.ArrayList;
+
 import com.ef.srv.campaigns.api.CampaignsController;
-import com.ef.srv.campaigns.model.CampaingData;
+import com.ef.srv.campaigns.model.DataBody;
 import com.ev.arq.srv.api.exception.EntityNotFoundException;
 
 /**
@@ -17,5 +19,5 @@ public interface CampaignsService {
 	 * 
 	 * @return
 	 */
-	CampaingData v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException;
+	ArrayList<DataBody> v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException;
 }

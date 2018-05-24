@@ -17,8 +17,6 @@ import lombok.Data;
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty("codProd")
-	private String codProd;
 
 	@JsonProperty("TIN")
 	private BigDecimal TIN;
@@ -32,11 +30,11 @@ public class Product implements Serializable {
 	@JsonProperty("minMonths")
 	private String minMonths;
 
-	@JsonProperty("maxMonths")
-	private String maxMonths;
-
 	@JsonProperty("minAmount")
 	private String minAmount;
+	
+	@JsonProperty("maxMonths")
+	private String maxMonths;
 
 	@JsonProperty("maxAmount")
 	private String maxAmount;
@@ -52,5 +50,8 @@ public class Product implements Serializable {
 
 	@JsonProperty("earlyRepayAfter12Months")
 	private String earlyRepayAfter12Months;
+
+	@JsonProperty("codProd")
+	private String codProd;
 
 }
