@@ -17,6 +17,7 @@ import com.ef.srv.campaigns.api.CampaignsController;
 import com.ef.srv.campaigns.model.CampaingData;
 import com.ef.srv.campaigns.model.DataBody;
 import com.ef.srv.campaigns.service.CampaignsService;
+import com.ef.srv.campaigns.util.Messages;
 import com.ef.srv.campaigns.util.Utils;
 import com.google.gson.Gson;
 
@@ -38,12 +39,12 @@ public class CampaignsServiceImpl implements CampaignsService {
 		String authURL = "https://test.salesforce.com/services/oauth2/token"; //$NON-NLS-1$
 
 		UriComponentsBuilder authBuilder = UriComponentsBuilder.fromHttpUrl(authURL)
-				.queryParam("client_secret", "5533177683449434149") //$NON-NLS-1$ //$NON-NLS-2$
-				.queryParam("client_id", //$NON-NLS-1$
+				.queryParam(Messages.getString("CampaignsServiceImpl.3"), "5533177683449434149") //$NON-NLS-1$ //$NON-NLS-2$
+				.queryParam(Messages.getString("CampaignsServiceImpl.2"), //$NON-NLS-1$
 						"3MVG9w8uXui2aB_rlAPrAgWPrr3g20tNLVPg9ov9lBaO4n5o8irqj8TpFMoiaHBhySCFO5uAwu8Ud8CuB9ZtS") //$NON-NLS-1$
-				.queryParam("grant_type", "password") //$NON-NLS-1$ //$NON-NLS-2$
-				.queryParam("username", "evfapiuser@evofinance.com.atmira") //$NON-NLS-1$ //$NON-NLS-2$
-				.queryParam("password", "DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp"); //$NON-NLS-1$ //$NON-NLS-2$
+				.queryParam(Messages.getString("CampaignsServiceImpl.1"), "password") //$NON-NLS-1$ //$NON-NLS-2$
+				.queryParam(Messages.getString("CampaignsServiceImpl.0"), "evfapiuser@evofinance.com.atmira") //$NON-NLS-1$ //$NON-NLS-2$
+				.queryParam(Messages.getString("CampaignsServiceImpl.4"), "DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		HttpHeaders headers = new HttpHeaders();
 		// authHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -63,7 +64,7 @@ public class CampaignsServiceImpl implements CampaignsService {
 
 		try {
 			headers = new HttpHeaders();
-			headers.add("Authorization", Utils.getTokenFromRaw(oAuthResponse.getBody().toString())); //$NON-NLS-1$
+			headers.add(Messages.getString("CampaignsServiceImpl.5"), Utils.getTokenFromRaw(oAuthResponse.getBody().toString())); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
