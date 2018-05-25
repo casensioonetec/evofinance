@@ -36,23 +36,24 @@ public class CampaignsServiceImpl implements CampaignsService {
 	@Override
 	public ArrayList<DataBody> v1CampaignsCampaignCodeGet(String campaignCode) {
 
-		String authURL = "https://test.salesforce.com/services/oauth2/token"; //$NON-NLS-1$
-		String sfURL = "https://evobanco--atmira.cs83.my.salesforce.com/services/apexrest/getCampaignData/v1/"; //$NON-NLS-1$
+		String authURL = Messages.getString("CampaignsServiceImpl.url.sf.auth");  
+		String authURLTest = Messages.getString("CampaignsServiceImpl.url.sf.auth.test");  
+		String sfURL = Messages.getString("CampaignsServiceImpl.url.sf.campaign");  
 
-		UriComponentsBuilder authBuilder = UriComponentsBuilder.fromHttpUrl(authURL)
-				.queryParam(Messages.getString("CampaignsServiceImpl.3"), "5533177683449434149") //$NON-NLS-1$ //$NON-NLS-2$
-				.queryParam(Messages.getString("CampaignsServiceImpl.2"), //$NON-NLS-1$
-						"3MVG9w8uXui2aB_rlAPrAgWPrr3g20tNLVPg9ov9lBaO4n5o8irqj8TpFMoiaHBhySCFO5uAwu8Ud8CuB9ZtS") //$NON-NLS-1$
-				.queryParam(Messages.getString("CampaignsServiceImpl.1"), "password") //$NON-NLS-1$ //$NON-NLS-2$
-				.queryParam(Messages.getString("CampaignsServiceImpl.0"), "evfapiuser@evofinance.com.atmira") //$NON-NLS-1$ //$NON-NLS-2$
-				.queryParam(Messages.getString("CampaignsServiceImpl.4"), //$NON-NLS-1$
-						"DigitalAtmOne_2018!M7NxZ7XtIyBpFvzuFtx12bXp"); //$NON-NLS-1$
+		UriComponentsBuilder authBuilder = UriComponentsBuilder.fromHttpUrl(authURLTest)
+				.queryParam(Messages.getString("CampaignsServiceImpl.client_secret"), Messages.getString("CampaignsServiceImpl.client_secret.value"))   //$NON-NLS-2$
+				.queryParam(Messages.getString("CampaignsServiceImpl.client_id"),  
+						Messages.getString("CampaignsServiceImpl.client_id.value"))  
+				.queryParam(Messages.getString("CampaignsServiceImpl.grant_type"), Messages.getString("CampaignsServiceImpl.grant_type.value"))   //$NON-NLS-2$
+				.queryParam(Messages.getString("CampaignsServiceImpl.username"), Messages.getString("CampaignsServiceImpl.username.value"))   //$NON-NLS-2$
+				.queryParam(Messages.getString("CampaignsServiceImpl.password"),  
+						Messages.getString("CampaignsServiceImpl.password.value"));  
 
 		HttpHeaders headers = new HttpHeaders();
 		// authHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
 
-		HttpEntity<String> authEntity = new HttpEntity<String>("", headers); //$NON-NLS-1$
+		HttpEntity<String> authEntity = new HttpEntity<String>(Messages.getString("CampaignsServiceImpl.empty"), headers);  
 
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<?> oAuthResponse = restTemplate.exchange(authBuilder.build().encode().toUri(), HttpMethod.POST,
@@ -65,7 +66,7 @@ public class CampaignsServiceImpl implements CampaignsService {
 
 		try {
 			headers = new HttpHeaders();
-			headers.add(Messages.getString("CampaignsServiceImpl.5"), //$NON-NLS-1$
+			headers.add(Messages.getString("CampaignsServiceImpl.authorization"),  
 					Utils.getTokenFromRaw(oAuthResponse.getBody().toString()));
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -73,7 +74,7 @@ public class CampaignsServiceImpl implements CampaignsService {
 		}
 		// sfHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<String> sfEntity = new HttpEntity<String>("", headers); //$NON-NLS-1$
+		HttpEntity<String> sfEntity = new HttpEntity<String>(Messages.getString("CampaignsServiceImpl.empty"), headers);  
 
 		ResponseEntity<String> sfResponse = restTemplate.exchange(sfBuilder.build().encode().toUri(), HttpMethod.GET,
 				sfEntity, String.class);
