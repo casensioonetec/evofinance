@@ -19,8 +19,15 @@ import lombok.Data;
 public class CampaingData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty("data")
-	@ApiModelProperty(required = true, value = "datos")
-	private ArrayList<DataBody> data;
+	@JsonProperty("id")
+	private String id;
+
+	@JsonProperty("vendor")
+	private Boolean vendor;
+
+	@Builder.Default
+	@JsonProperty("finalities")
+	@ApiModelProperty(required = true, value = "Finalidades")
+	private List<Finality> finalities = new ArrayList<>();
 
 }

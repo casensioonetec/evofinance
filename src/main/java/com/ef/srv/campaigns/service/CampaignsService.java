@@ -2,8 +2,10 @@ package com.ef.srv.campaigns.service;
 
 import java.util.ArrayList;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.ef.srv.campaigns.api.CampaignsController;
-import com.ef.srv.campaigns.model.DataBody;
+import com.ef.srv.campaigns.model.CampaingData;
 import com.ev.arq.srv.api.exception.EntityNotFoundException;
 
 /**
@@ -19,5 +21,6 @@ public interface CampaignsService {
 	 * 
 	 * @return
 	 */
-	ArrayList<DataBody> v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException;
+	CampaingData v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException;
+
 }
