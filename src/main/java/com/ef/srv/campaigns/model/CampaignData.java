@@ -16,7 +16,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CampaingData implements Serializable {
+public class CampaignData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("id")

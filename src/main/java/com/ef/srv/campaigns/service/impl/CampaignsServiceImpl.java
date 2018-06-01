@@ -15,12 +15,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ef.srv.campaigns.api.CampaignsController;
-import com.ef.srv.campaigns.model.CampaingData;
+import com.ef.srv.campaigns.model.CampaignData;
 import com.ef.srv.campaigns.service.CampaignsService;
 import com.ef.srv.campaigns.util.Messages;
 import com.ef.srv.campaigns.util.Utils;
@@ -41,10 +42,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CampaignsServiceImpl implements CampaignsService {
 
 	@Override
-	public CampaingData v1CampaignsCampaignCodeGet(String campaignCode) {
+	public CampaignData v1CampaignsCampaignCodeGet(String campaignCode) {
 
-		CampaingData response = null;
-		for (CampaingData data : getCampaignsFromSF()) {
+		CampaignData response = null;
+		for (CampaignData data : getCampaignsFromSF()) {
 			if (data.getId().toString().equals(campaignCode)) {
 				response = data;
 			}
@@ -53,53 +54,13 @@ public class CampaignsServiceImpl implements CampaignsService {
 		return response;
 	}
 
-	@Cacheable(value = "response", cacheManager = "timeoutCacheManager", unless = "#result.getStatus() == 500")
-	public ArrayList<CampaingData> getCampaignsFromSF() {
-		ArrayList<CampaingData> response = null;
+	@Cacheable("response")
+	public ArrayList<CampaignData> getCampaignsFromSF() {
+		System.out.println("Response");
+		ArrayList<CampaignData> response = null;
 
 		try {
-			// String authURL = Messages.getString("CampaignsServiceImpl.url.sf.auth");
-			String authURLTest = Messages.getString("CampaignsServiceImpl.url.sf.auth.test");
-			String sfURL = Messages.getString("CampaignsServiceImpl.url.sf.campaign");
-
-			UriComponentsBuilder authBuilder = UriComponentsBuilder.fromHttpUrl(authURLTest)
-					.queryParam(Messages.getString("CampaignsServiceImpl.client_secret"),
-							Messages.getString("CampaignsServiceImpl.client_secret.value"))
-					.queryParam(Messages.getString("CampaignsServiceImpl.client_id"),
-							Messages.getString("CampaignsServiceImpl.client_id.value"))
-					.queryParam(Messages.getString("CampaignsServiceImpl.grant_type"),
-							Messages.getString("CampaignsServiceImpl.grant_type.value"))
-					.queryParam(Messages.getString("CampaignsServiceImpl.username"),
-							Messages.getString("CampaignsServiceImpl.username.value"))
-					.queryParam(Messages.getString("CampaignsServiceImpl.password"),
-							Messages.getString("CampaignsServiceImpl.password.value"));
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
-
-			HttpEntity<String> authEntity = new HttpEntity<String>(Messages.getString("CampaignsServiceImpl.empty"),
-					headers);
-
-			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<?> oAuthResponse = restTemplate.exchange(authBuilder.build().encode().toUri(),
-					HttpMethod.POST, authEntity, String.class);
-
-			UriComponentsBuilder sfBuilder = UriComponentsBuilder.fromHttpUrl(sfURL);
-
-			headers = new HttpHeaders();
-			headers.add(Messages.getString("CampaignsServiceImpl.authorization"),
-					Utils.getTokenFromRaw(oAuthResponse.getBody().toString()));
-
-			HttpEntity<String> sfEntity = new HttpEntity<String>(Messages.getString("CampaignsServiceImpl.empty"),
-					headers);
-
-			ResponseEntity<String> sfResponse = restTemplate.exchange(sfBuilder.build().encode().toUri(),
-					HttpMethod.GET, sfEntity, String.class);
-
-			ArrayList<CampaingData> campaingDataArray = new Gson().fromJson(sfResponse.getBody().toString(),
-					new TypeToken<ArrayList<CampaingData>>() {}.getType());
-			Utils.simulateSlowService();
-			response = campaingDataArray;
+			response = getData();
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,13 +68,60 @@ public class CampaignsServiceImpl implements CampaignsService {
 		return response;
 	}
 
-	@Bean
-	public CacheManager timeoutCacheManager() {
-		System.out.println("cacheando...");
-		GuavaCacheManager cacheManager = new GuavaCacheManager();
-		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(5,
-				TimeUnit.SECONDS);
-		cacheManager.setCacheBuilder(cacheBuilder);
-		return cacheManager;
+	@Cacheable("token")
+	private String getToken() throws UnsupportedEncodingException {
+		System.out.println("Llamo al token");
+		String token = "";
+		String authURLTest = Messages.getString("CampaignsServiceImpl.url.sf.auth.test");
+		UriComponentsBuilder authBuilder = UriComponentsBuilder.fromHttpUrl(authURLTest)
+				.queryParam(Messages.getString("CampaignsServiceImpl.client_secret"),
+						Messages.getString("CampaignsServiceImpl.client_secret.value"))
+				.queryParam(Messages.getString("CampaignsServiceImpl.client_id"),
+						Messages.getString("CampaignsServiceImpl.client_id.value"))
+				.queryParam(Messages.getString("CampaignsServiceImpl.grant_type"),
+						Messages.getString("CampaignsServiceImpl.grant_type.value"))
+				.queryParam(Messages.getString("CampaignsServiceImpl.username"),
+						Messages.getString("CampaignsServiceImpl.username.value"))
+				.queryParam(Messages.getString("CampaignsServiceImpl.password"),
+						Messages.getString("CampaignsServiceImpl.password.value"));
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
+
+		HttpEntity<String> authEntity = new HttpEntity<String>(Messages.getString("CampaignsServiceImpl.empty"),
+				headers);
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<?> oAuthResponse = restTemplate.exchange(authBuilder.build().encode().toUri(), HttpMethod.POST,
+				authEntity, String.class);
+
+		token = Utils.getTokenFromRaw(oAuthResponse.getBody().toString());
+		return token;
 	}
+
+	@Cacheable("campaignDataArray")
+	private ArrayList<CampaignData> getData() throws UnsupportedEncodingException {
+		System.out.println("Llamo a salesforce");
+		// String authURL = Messages.getString("CampaignsServiceImpl.url.sf.auth");
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers = new HttpHeaders();
+		headers.add(Messages.getString("CampaignsServiceImpl.authorization"), getToken());
+
+		String sfURL = Messages.getString("CampaignsServiceImpl.url.sf.campaign");
+
+		UriComponentsBuilder sfBuilder = UriComponentsBuilder.fromHttpUrl(sfURL);
+
+		HttpEntity<String> sfEntity = new HttpEntity<String>(Messages.getString("CampaignsServiceImpl.empty"), headers);
+
+		ResponseEntity<String> sfResponse = restTemplate.exchange(sfBuilder.build().encode().toUri(), HttpMethod.GET,
+				sfEntity, String.class);
+
+		ArrayList<CampaignData> campaignDataArray = new Gson().fromJson(sfResponse.getBody().toString(),
+				new TypeToken<ArrayList<CampaignData>>() {
+				}.getType());
+		// Utils.simulateSlowService();
+		return campaignDataArray;
+	}
+
 }

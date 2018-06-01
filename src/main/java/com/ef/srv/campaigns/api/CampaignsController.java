@@ -1,6 +1,7 @@
 package com.ef.srv.campaigns.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.ef.srv.campaigns.model.CampaingData;
+import com.ef.srv.campaigns.model.CampaignData;
 import com.ef.srv.campaigns.service.CampaignsService;
 import com.ev.arq.srv.api.exception.EntityNotFoundException;
 
@@ -38,18 +39,18 @@ public class CampaignsController extends WebMvcConfigurerAdapter {
 		registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "PUT", "POST", "DELETE", "OPTIONS");
 	}
 
-	@ApiOperation(value = "Recupera todos los datos de una campaña", nickname = "v1CampaignsCampaignCodeGet", notes = "Recupera todos los datos de una campaña para el proceso de contratación", response = CampaingData.class, tags = {
+	@ApiOperation(value = "Recupera todos los datos de una campaña", nickname = "v1CampaignsCampaignCodeGet", notes = "Recupera todos los datos de una campaña para el proceso de contratación", response = CampaignData.class, tags = {
 			"Campaigns", })
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = CampaingData.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = CampaignData.class),
 			@ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 404, message = "Not Found") })
 	@RequestMapping(value = "/v1/campaigns/{campaignCode}", produces = {
 			"application/json" }, method = RequestMethod.GET)
-	public ResponseEntity<CampaingData> v1CampaignsCampaignCodeGet(
+	public ResponseEntity<CampaignData> v1CampaignsCampaignCodeGet(
 			@ApiParam(value = "Código de la campaña a descargar", required = true) @PathVariable("campaignCode") String campaignCode,
 			@RequestHeader HttpHeaders headers) throws EntityNotFoundException {
 
-		return new ResponseEntity<CampaingData>(service.v1CampaignsCampaignCodeGet(campaignCode), HttpStatus.OK);
+		return new ResponseEntity<CampaignData>(service.v1CampaignsCampaignCodeGet(campaignCode), HttpStatus.OK);
 	}
 
 }
