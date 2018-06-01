@@ -1,8 +1,12 @@
 package com.ef.srv.campaigns.service;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Component;
 
 import com.ef.srv.campaigns.api.CampaignsController;
+import com.ef.srv.campaigns.components.HttpCall;
 import com.ef.srv.campaigns.model.CampaignData;
 import com.ev.arq.srv.api.exception.EntityNotFoundException;
 
@@ -20,6 +24,5 @@ public interface CampaignsService {
 	 * 
 	 * @return
 	 */
-	CampaignData v1CampaignsCampaignCodeGet(String campaignCode) throws EntityNotFoundException;
-
+	CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call) throws EntityNotFoundException;
 }

@@ -5,10 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.cache.support.SimpleCacheManager;
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ef.srv.campaigns.api.CampaignsController;
+import com.ef.srv.campaigns.components.HttpCall;
 import com.ef.srv.campaigns.model.CampaignData;
 import com.ef.srv.campaigns.service.CampaignsService;
 import com.ef.srv.campaigns.util.Messages;
@@ -39,13 +46,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@EnableCaching
 public class CampaignsServiceImpl implements CampaignsService {
 
 	@Override
-	public CampaignData v1CampaignsCampaignCodeGet(String campaignCode) {
+	public CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call) {
 
 		CampaignData response = null;
-		for (CampaignData data : getCampaignsFromSF()) {
+		for (CampaignData data : getCampaignsFromSF(call)) {
 			if (data.getId().toString().equals(campaignCode)) {
 				response = data;
 			}
@@ -54,13 +62,10 @@ public class CampaignsServiceImpl implements CampaignsService {
 		return response;
 	}
 
-	@Cacheable("response")
-	public ArrayList<CampaignData> getCampaignsFromSF() {
-		System.out.println("Response");
+	public ArrayList<CampaignData> getCampaignsFromSF(HttpCall call) {
 		ArrayList<CampaignData> response = null;
-
 		try {
-			response = getData();
+			response = call.getData();
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,60 +73,6 @@ public class CampaignsServiceImpl implements CampaignsService {
 		return response;
 	}
 
-	@Cacheable("token")
-	private String getToken() throws UnsupportedEncodingException {
-		System.out.println("Llamo al token");
-		String token = "";
-		String authURLTest = Messages.getString("CampaignsServiceImpl.url.sf.auth.test");
-		UriComponentsBuilder authBuilder = UriComponentsBuilder.fromHttpUrl(authURLTest)
-				.queryParam(Messages.getString("CampaignsServiceImpl.client_secret"),
-						Messages.getString("CampaignsServiceImpl.client_secret.value"))
-				.queryParam(Messages.getString("CampaignsServiceImpl.client_id"),
-						Messages.getString("CampaignsServiceImpl.client_id.value"))
-				.queryParam(Messages.getString("CampaignsServiceImpl.grant_type"),
-						Messages.getString("CampaignsServiceImpl.grant_type.value"))
-				.queryParam(Messages.getString("CampaignsServiceImpl.username"),
-						Messages.getString("CampaignsServiceImpl.username.value"))
-				.queryParam(Messages.getString("CampaignsServiceImpl.password"),
-						Messages.getString("CampaignsServiceImpl.password.value"));
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_FORM_URLENCODED));
-
-		HttpEntity<String> authEntity = new HttpEntity<String>(Messages.getString("CampaignsServiceImpl.empty"),
-				headers);
-
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<?> oAuthResponse = restTemplate.exchange(authBuilder.build().encode().toUri(), HttpMethod.POST,
-				authEntity, String.class);
-
-		token = Utils.getTokenFromRaw(oAuthResponse.getBody().toString());
-		return token;
-	}
-
-	@Cacheable("campaignDataArray")
-	private ArrayList<CampaignData> getData() throws UnsupportedEncodingException {
-		System.out.println("Llamo a salesforce");
-		// String authURL = Messages.getString("CampaignsServiceImpl.url.sf.auth");
-		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-		headers = new HttpHeaders();
-		headers.add(Messages.getString("CampaignsServiceImpl.authorization"), getToken());
-
-		String sfURL = Messages.getString("CampaignsServiceImpl.url.sf.campaign");
-
-		UriComponentsBuilder sfBuilder = UriComponentsBuilder.fromHttpUrl(sfURL);
-
-		HttpEntity<String> sfEntity = new HttpEntity<String>(Messages.getString("CampaignsServiceImpl.empty"), headers);
-
-		ResponseEntity<String> sfResponse = restTemplate.exchange(sfBuilder.build().encode().toUri(), HttpMethod.GET,
-				sfEntity, String.class);
-
-		ArrayList<CampaignData> campaignDataArray = new Gson().fromJson(sfResponse.getBody().toString(),
-				new TypeToken<ArrayList<CampaignData>>() {
-				}.getType());
-		// Utils.simulateSlowService();
-		return campaignDataArray;
-	}
+	
 
 }

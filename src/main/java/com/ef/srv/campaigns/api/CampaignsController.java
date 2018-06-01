@@ -1,7 +1,13 @@
 package com.ef.srv.campaigns.api;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +20,11 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.ef.srv.campaigns.components.HttpCall;
 import com.ef.srv.campaigns.model.CampaignData;
 import com.ef.srv.campaigns.service.CampaignsService;
 import com.ev.arq.srv.api.exception.EntityNotFoundException;
+import com.google.common.cache.CacheBuilder;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -32,6 +40,9 @@ public class CampaignsController extends WebMvcConfigurerAdapter {
 
 	@Autowired
 	private CampaignsService service;
+	
+	@Autowired
+	private HttpCall call;
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -49,8 +60,8 @@ public class CampaignsController extends WebMvcConfigurerAdapter {
 	public ResponseEntity<CampaignData> v1CampaignsCampaignCodeGet(
 			@ApiParam(value = "Código de la campaña a descargar", required = true) @PathVariable("campaignCode") String campaignCode,
 			@RequestHeader HttpHeaders headers) throws EntityNotFoundException {
-
-		return new ResponseEntity<CampaignData>(service.v1CampaignsCampaignCodeGet(campaignCode), HttpStatus.OK);
+		
+		return new ResponseEntity<CampaignData>(service.v1CampaignsCampaignCodeGet(campaignCode, call), HttpStatus.OK);
 	}
-
+	
 }
