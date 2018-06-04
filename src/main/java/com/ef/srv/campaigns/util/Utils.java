@@ -24,17 +24,4 @@ public class Utils {
 		}
 		return response;
 	}
-
-	// Don't do this at home
-	public static void simulateSlowService() {
-		try {
-			System.out.println("Cargando. Es la primera vez que se hace la llamada");
-			long time = 10000L;
-			Thread.sleep(time);
-			System.out.println("Ya está cargado");
-		} catch (InterruptedException e) {
-			throw new IllegalStateException(e);
-		}
-	}
-
 }

@@ -30,9 +30,9 @@ import com.google.gson.reflect.TypeToken;
 @Component
 public class HttpCall {
 
-	@Cacheable(value = "response", cacheManager="cacheManager")
+	@Cacheable(value = "response", cacheManager = "cacheManager")
 	public ArrayList<CampaignData> getData() throws UnsupportedEncodingException {
-		System.out.println("Llamo a salesforce");
+		// System.out.println("Llamo a salesforce");
 
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
