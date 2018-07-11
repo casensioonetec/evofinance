@@ -1,8 +1,5 @@
 package com.ef.srv.campaigns.service;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-
 import org.springframework.stereotype.Component;
 
 import com.ef.srv.campaigns.api.CampaignsController;
