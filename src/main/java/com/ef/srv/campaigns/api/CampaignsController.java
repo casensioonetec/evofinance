@@ -1,13 +1,6 @@
 package com.ef.srv.campaigns.api;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.guava.GuavaCacheManager;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +17,6 @@ import com.ef.srv.campaigns.components.HttpCall;
 import com.ef.srv.campaigns.model.CampaignData;
 import com.ef.srv.campaigns.service.CampaignsService;
 import com.ev.arq.srv.api.exception.EntityNotFoundException;
-import com.google.common.cache.CacheBuilder;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -43,9 +35,10 @@ public class CampaignsController extends WebMvcConfigurerAdapter {
 	
 	@Autowired
 	private HttpCall call;
-
+	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
+		log.info("Se añaden CORS");
 		super.addCorsMappings(registry);
 		registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "PUT", "POST", "DELETE", "OPTIONS");
 	}
