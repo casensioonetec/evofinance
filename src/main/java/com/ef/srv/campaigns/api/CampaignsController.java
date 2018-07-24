@@ -36,19 +36,13 @@ public class CampaignsController extends WebMvcConfigurerAdapter {
 	@Autowired
 	private HttpCall call;
 	
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		log.info("Se añaden CORS");
-		super.addCorsMappings(registry);
-		registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "PUT", "POST", "DELETE", "OPTIONS");
-	}
 
 	@ApiOperation(value = "Recupera todos los datos de una campaña", nickname = "v1CampaignsCampaignCodeGet", notes = "Recupera todos los datos de una campaña para el proceso de contratación", response = CampaignData.class, tags = {
 			"Campaigns", })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = CampaignData.class),
 			@ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 404, message = "Not Found") })
-	@RequestMapping(value = "/v1/campaigns/{campaignCode}", produces = {
+	@RequestMapping(value = "/campaigns/v1/{campaignCode}", produces = {
 			"application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<CampaignData> v1CampaignsCampaignCodeGet(
 			@ApiParam(value = "Código de la campaña a descargar", required = true) @PathVariable("campaignCode") String campaignCode,
