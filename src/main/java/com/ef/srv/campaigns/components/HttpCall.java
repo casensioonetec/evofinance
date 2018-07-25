@@ -119,7 +119,7 @@ public class HttpCall {
 
 		GuavaCacheManager cacheManager = new GuavaCacheManager();
 		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(1,
-				TimeUnit.DAYS);
+				TimeUnit.HOURS);
 		cacheManager.setCacheBuilder(cacheBuilder);
 
 		/*
