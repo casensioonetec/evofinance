@@ -36,7 +36,7 @@ public class CampaignsController extends WebMvcConfigurerAdapter {
 	@Autowired
 	private HttpCall call;
 	
-
+   
 	@ApiOperation(value = "Recupera todos los datos de una campaña", nickname = "v1CampaignsCampaignCodeGet", notes = "Recupera todos los datos de una campaña para el proceso de contratación", response = CampaignData.class, tags = {
 			"Campaigns", })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = CampaignData.class),

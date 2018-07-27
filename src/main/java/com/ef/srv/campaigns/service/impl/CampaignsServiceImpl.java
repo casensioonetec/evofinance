@@ -29,12 +29,12 @@ public class CampaignsServiceImpl implements CampaignsService {
 
 		CampaignData response = null;
 		for (CampaignData data : getCampaignsFromSF(call)) {
-			log.info("Se recupera el codigo de campaña");
+			log.info("The campaign code is retrieved");
 			if (data.getId().toString().equals(campaignCode)) {
 				response = data;
 			}else
 			{
-				System.out.println("El código de campaña no existe");
+				System.out.println("The campaign code does not exist");
 			}
 		}
 

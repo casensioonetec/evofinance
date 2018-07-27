@@ -19,7 +19,7 @@ public class Utils {
 		final Matcher matcherToken = patternToken.matcher(responseOAuth2);
 
 		if (matcherToken.find() && matcherType.find()) {
-			// Devolvemos el indice 1 por que el indice 0 incluye los delimitadores
+			// We return index 1 because the index 0 includes the delimiters
 			response = matcherType.group(1) + " " + URLDecoder.decode(matcherToken.group(1), "UTF-8"); //$NON-NLS-1$
 		}
 		return response;
