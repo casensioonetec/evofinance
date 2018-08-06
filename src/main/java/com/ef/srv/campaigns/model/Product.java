@@ -38,6 +38,9 @@ public class Product implements Serializable {
 
 	@JsonProperty("maxAmount")
 	private String maxAmount;
+	
+	@JsonProperty("secondHolder")
+	private String secondHolder;
 
 	@JsonProperty("insuranceAmount")
 	private BigDecimal insuranceAmount;
