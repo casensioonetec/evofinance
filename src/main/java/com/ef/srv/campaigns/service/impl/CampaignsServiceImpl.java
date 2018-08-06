@@ -23,11 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @EnableCaching
 public class CampaignsServiceImpl implements CampaignsService {
-
+	ArrayList<CampaignData> response = null;
+	
 	@Override
 	public CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call) {
 
 		CampaignData response = null;
+
 		for (CampaignData data : getCampaignsFromSF(call)) {
 			log.info("The campaign code is retrieved");
 			if (data.getId().toString().equals(campaignCode)) {
@@ -38,18 +40,31 @@ public class CampaignsServiceImpl implements CampaignsService {
 			}
 		}
 
+		if(response == null) {
+			campaignCode = "7010E000000OTFWQA4";
+			for (CampaignData data : getCampaignsFromSF(call)) {
+				log.info("The campaign code is retrieved");
+				if (data.getId().toString().equals(campaignCode)) {
+					response = data;
+				}
+			}
+		}
 		return response;
 	}
 
 	public ArrayList<CampaignData> getCampaignsFromSF(HttpCall call) {
-		ArrayList<CampaignData> response = null;
-		try {
-			response = call.getData();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(this.response == null) {
+			try {
+				response = call.getData();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return response;
+		} else {
+			return response;
 		}
-		return response;
+		
 	}
 
 	

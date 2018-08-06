@@ -19,9 +19,13 @@ import lombok.Data;
 public class Finality implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@JsonProperty("code")
+	private String code;
+	
 	@JsonProperty("name")
 	private String name;
-
+	
+	
 	@Builder.Default
 	@JsonProperty("products")
 	@ApiModelProperty(required = true, value = "Productos")
