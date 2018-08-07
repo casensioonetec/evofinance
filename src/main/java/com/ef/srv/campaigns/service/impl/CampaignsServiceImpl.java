@@ -41,10 +41,10 @@ public class CampaignsServiceImpl implements CampaignsService {
 		}
 
 		if(response == null) {
-			campaignCode = "7010E000000OTFWQA4";
+			
 			for (CampaignData data : getCampaignsFromSF(call)) {
 				log.info("The campaign code is retrieved");
-				if (data.getId().toString().equals(campaignCode)) {
+				if (data.getDefaultCampaign()) {
 					response = data;
 				}
 			}

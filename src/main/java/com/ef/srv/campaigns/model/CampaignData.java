@@ -24,6 +24,9 @@ public class CampaignData implements Serializable {
 
 	@JsonProperty("vendor")
 	private Boolean vendor;
+	
+	@JsonProperty("defaultCampaign")
+	private Boolean defaultCampaign;
 
 	@Builder.Default
 	@JsonProperty("finalities")
