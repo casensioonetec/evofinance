@@ -3,6 +3,8 @@ package com.ef.srv.campaigns.components;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -55,6 +58,8 @@ public class HttpCall {
 		}
 		
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters()
+		        .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
 		HttpHeaders headers = new HttpHeaders();
 		
 		headers = new HttpHeaders();
@@ -119,7 +124,7 @@ public class HttpCall {
 
 		GuavaCacheManager cacheManager = new GuavaCacheManager();
 		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(1,
-				TimeUnit.HOURS);
+				TimeUnit.MINUTES);
 		cacheManager.setCacheBuilder(cacheBuilder);
 
 		/*
