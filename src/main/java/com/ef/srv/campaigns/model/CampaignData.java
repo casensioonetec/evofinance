@@ -25,6 +25,12 @@ public class CampaignData implements Serializable {
 	@JsonProperty("vendor")
 	private Boolean vendor;
 	
+	@JsonProperty("pixel")
+	private String pixel;
+	
+	@JsonProperty("forcedInsurance")
+	private String forcedInsurance;
+	
 	@JsonProperty("defaultCampaign")
 	private Boolean defaultCampaign;
 

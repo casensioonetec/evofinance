@@ -26,6 +26,15 @@ public class Product implements Serializable {
 
 	@JsonProperty("optionalInsurance")
 	private Boolean optionalInsurance;
+	
+	@JsonProperty("loanInsurance")
+	private Boolean loanInsurance;
+	
+	@JsonProperty("secondHolder")
+	private String secondHolder;
+	
+	@JsonProperty("percentage")
+	private BigDecimal percentage;
 
 	@JsonProperty("minMonths")
 	private String minMonths;
@@ -39,9 +48,6 @@ public class Product implements Serializable {
 	@JsonProperty("maxAmount")
 	private String maxAmount;
 	
-	@JsonProperty("secondHolder")
-	private String secondHolder;
-
 	@JsonProperty("insuranceAmount")
 	private BigDecimal insuranceAmount;
 
