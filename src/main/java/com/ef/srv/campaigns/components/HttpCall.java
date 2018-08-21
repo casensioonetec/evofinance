@@ -43,7 +43,7 @@ public class HttpCall {
 		// System.out.println("Llamo a salesforce");
 
 		
-		is = getClass().getClassLoader().getResourceAsStream("config.properties");
+		is = getClass().getClassLoader().getResourceAsStream("application.properties");
 		 
 		if (is != null) {
 			try {
