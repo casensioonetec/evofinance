@@ -1,23 +1,18 @@
 package com.ef.srv.campaigns.components;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -162,20 +157,6 @@ public class HttpCall {
 		}
 		return token;
 	}
-
-	@Bean
-	public CacheManager cacheManager() {
-
-		GuavaCacheManager cacheManager = new GuavaCacheManager();
-		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(1,
-				TimeUnit.MINUTES);
-		cacheManager.setCacheBuilder(cacheBuilder);
-
-		/*
-		 * SimpleCacheManager cacheManager = new SimpleCacheManager(); Cache cache = new
-		 * ConcurrentMapCache("mycache"); cacheManager.setCaches(Arrays.asList(cache));
-		 */
-		return cacheManager;
-
-	}
+	
+	
 }

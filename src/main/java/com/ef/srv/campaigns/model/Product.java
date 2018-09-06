@@ -24,9 +24,6 @@ public class Product implements Serializable {
 	@JsonProperty("TAE")
 	private BigDecimal TAE;
 
-	@JsonProperty("optionalInsurance")
-	private Boolean optionalInsurance;
-	
 	@JsonProperty("loanInsurance")
 	private Boolean loanInsurance;
 	
