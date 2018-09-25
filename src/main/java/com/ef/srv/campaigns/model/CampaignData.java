@@ -39,4 +39,64 @@ public class CampaignData implements Serializable {
 	@ApiModelProperty(required = true, value = "Finalidades")
 	private List<Finality> finalities = new ArrayList<>();
 
+	
+	
+	
+	
+	
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Boolean getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Boolean vendor) {
+		this.vendor = vendor;
+	}
+
+	public String getPixel() {
+		return pixel;
+	}
+
+	public void setPixel(String pixel) {
+		this.pixel = pixel;
+	}
+
+	public String getForcedInsurance() {
+		return forcedInsurance;
+	}
+
+	public void setForcedInsurance(String forcedInsurance) {
+		this.forcedInsurance = forcedInsurance;
+	}
+
+	public Boolean getDefaultCampaign() {
+		return defaultCampaign;
+	}
+
+	public void setDefaultCampaign(Boolean defaultCampaign) {
+		this.defaultCampaign = defaultCampaign;
+	}
+
+	public List<Finality> getFinalities() {
+		return finalities;
+	}
+
+	public void setFinalities(List<Finality> finalities) {
+		this.finalities = finalities;
+	}
+
+	
+	
+	
+	
+	
+	
 }

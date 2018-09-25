@@ -31,21 +31,20 @@ public class CampaignsServiceImpl implements CampaignsService {
 		CampaignData response = null;
 
 		for (CampaignData data : getCampaignsFromSF(call)) {
-			log.info("The campaign code is retrieved");
+			//log.info("The campaign code is retrieved");
 			if (data.getId().toString().equals(campaignCode)) {
 				response = data;
-			}else
-			{
-				System.out.println("The campaign code does not exist");
+				break;
 			}
 		}
 
 		if(response == null) {
 			
 			for (CampaignData data : getCampaignsFromSF(call)) {
-				log.info("The campaign code is retrieved");
+				//log.info("The campaign code is retrieved");
 				if (data.getDefaultCampaign()) {
 					response = data;
+					break;
 				}
 			}
 		}
