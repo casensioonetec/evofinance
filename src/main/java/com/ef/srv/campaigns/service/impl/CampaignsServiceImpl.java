@@ -21,49 +21,43 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@EnableCaching
+// @EnableCaching
 public class CampaignsServiceImpl implements CampaignsService {
-	ArrayList<CampaignData> response = null;
+	// ArrayList<CampaignData> responseArr = null;
 	
 	@Override
 	public CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call) {
 
 		CampaignData response = null;
-
-		for (CampaignData data : getCampaignsFromSF(call)) {
+		CampaignData responseDefault = null;
+		
+		ArrayList<CampaignData> campaings = getCampaignsFromSF(call);
+		for (CampaignData data : campaings) {
 			//log.info("The campaign code is retrieved");
 			if (data.getId().toString().equals(campaignCode)) {
 				response = data;
 				break;
 			}
-		}
-
-		if(response == null) {
-			
-			for (CampaignData data : getCampaignsFromSF(call)) {
-				//log.info("The campaign code is retrieved");
-				if (data.getDefaultCampaign()) {
-					response = data;
-					break;
-				}
+			if (data.getDefaultCampaign()) {
+				responseDefault = data;
 			}
 		}
-		return response;
-	}
 
-	public ArrayList<CampaignData> getCampaignsFromSF(HttpCall call) {
-		if(this.response == null) {
-			try {
-				response = call.getData();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return response;
+		if (response == null) {
+			return responseDefault;
 		} else {
 			return response;
 		}
-		
+	}
+
+	public ArrayList<CampaignData> getCampaignsFromSF(HttpCall call) {
+			try { 
+				return call.getData();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}		
 	}
 
 	
