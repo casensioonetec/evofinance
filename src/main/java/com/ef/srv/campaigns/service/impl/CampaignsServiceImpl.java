@@ -27,7 +27,6 @@ public class CampaignsServiceImpl implements CampaignsService {
 	
 	@Override
 	public CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call) {
-
 		CampaignData response = null;
 		CampaignData responseDefault = null;
 		
