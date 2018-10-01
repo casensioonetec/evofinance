@@ -25,39 +25,39 @@ import lombok.extern.slf4j.Slf4j;
 public class CampaignsServiceImpl implements CampaignsService {
 	// ArrayList<CampaignData> responseArr = null;
 	
-	
-	
 	@Override
 	public CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call) {
 
-		ArrayList<CampaignData> responseCampaign = null;
 		CampaignData response = null;
-
-		responseCampaign = getCampaignsFromSF(call);
-		for (CampaignData data : responseCampaign) {
-			// log.info("The campaign code is retrieved");
+		CampaignData responseDefault = null;
+		
+		ArrayList<CampaignData> campaings = getCampaignsFromSF(call);
+		for (CampaignData data : campaings) {
+			//log.info("The campaign code is retrieved");
 			if (data.getId().toString().equals(campaignCode)) {
 				response = data;
-				return response;
-			} else if (data.getDefaultCampaign()) {
-				response = data;
+				break;
+			}
+			if (data.getDefaultCampaign()) {
+				responseDefault = data;
 			}
 		}
 
-
-		return response;
+		if (response == null) {
+			return responseDefault;
+		} else {
+			return response;
+		}
 	}
 
 	public ArrayList<CampaignData> getCampaignsFromSF(HttpCall call) {
-	
-			try {
+			try { 
 				return call.getData();
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
-			}
-
+			}		
 	}
 
 	
