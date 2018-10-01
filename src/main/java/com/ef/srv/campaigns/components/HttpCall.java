@@ -29,7 +29,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-//@EnableCaching
+@EnableCaching
 @Component
 public class HttpCall {
 	
@@ -83,7 +83,7 @@ public class HttpCall {
 	InputStream is = null;
 	
 	
-	//@Cacheable(value = "response", cacheManager = "cacheManager")
+	@Cacheable(value = "response", cacheManager = "cacheManager")
 	public ArrayList<CampaignData> getData() throws UnsupportedEncodingException {
 		// System.out.println("Llamo a salesforce");
 
@@ -156,6 +156,22 @@ public class HttpCall {
 			e.printStackTrace();
 		}
 		return token;
+	}
+	
+	@Bean
+	public CacheManager cacheManager() {
+
+		GuavaCacheManager cacheManager = new GuavaCacheManager();
+		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(1,
+				TimeUnit.MINUTES);
+		cacheManager.setCacheBuilder(cacheBuilder);
+
+		/*
+		 * SimpleCacheManager cacheManager = new SimpleCacheManager(); Cache cache = new
+		 * ConcurrentMapCache("mycache"); cacheManager.setCaches(Arrays.asList(cache));
+		 */
+		return cacheManager;
+
 	}
 	
 	
