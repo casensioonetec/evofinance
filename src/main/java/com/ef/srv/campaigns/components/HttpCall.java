@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,6 +34,8 @@ import com.google.gson.reflect.TypeToken;
 // @EnableCaching
 @Component
 public class HttpCall {
+	
+	private static Logger logger = LogManager.getLogger();
 	
 	@Value("${campaignsServiceImpl.url.sf.auth}")
 	private String auth;
@@ -151,9 +155,11 @@ public class HttpCall {
 
 		try {
 			token = Utils.getTokenFromRaw(oAuthResponse.getBody().toString());
+			logger.info("The token has recovered");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.error("The token has not recovered");
 		}
 		return token;
 	}

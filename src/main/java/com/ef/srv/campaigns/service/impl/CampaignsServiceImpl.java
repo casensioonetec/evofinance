@@ -3,6 +3,8 @@ package com.ef.srv.campaigns.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 // @EnableCaching
 public class CampaignsServiceImpl implements CampaignsService {
 	// ArrayList<CampaignData> responseArr = null;
+	
+	private static Logger logger = LogManager.getLogger();
 	
 	@Override
 	public CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call) {
@@ -51,10 +55,12 @@ public class CampaignsServiceImpl implements CampaignsService {
 
 	public ArrayList<CampaignData> getCampaignsFromSF(HttpCall call) {
 			try { 
+				
 				return call.getData();
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				logger.error("The salesforce campaign is not recovered");
 				return null;
 			}		
 	}
