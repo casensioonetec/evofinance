@@ -30,18 +30,16 @@ public class HttpCall {
 
 	private static Logger logger = LogManager.getLogger();
 
-	
-
 	InputStream is = null;
 
-	public List<CampaignData> getData(String authorization, String token,String campaign,String body) {
+	public List<CampaignData> getData(String authorization, String token, String campaign, String body) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(authorization, token);
 
 		if (authorization != null && !authorization.isEmpty()) {
 
-			return this.getResponse(headers, campaign,body);
+			return this.getResponse(headers, campaign, body);
 		}
 		return new ArrayList<>();
 	}
@@ -67,7 +65,7 @@ public class HttpCall {
 	}
 
 	public String getToken(String clientSecret, String clientSecretValue, String clientId, String clientIdValue, String grantType, String grantTypeValue, String username, String usernameValue, String password,
-			String passwordValue, String body,String authtest) {
+			String passwordValue, String body, String authtest) {
 
 		String token = "";
 
