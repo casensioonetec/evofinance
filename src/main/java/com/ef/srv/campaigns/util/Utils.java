@@ -6,6 +6,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
+	
+	
+
+	private Utils() {
+		super();
+	}
 
 	public static String getTokenFromRaw(String responseOAuth2) throws UnsupportedEncodingException {
 		String response = ""; //$NON-NLS-1$

@@ -8,13 +8,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Finality
  */
 
-@Data
+@Getter
+@Setter
 @Builder
 public class Finality implements Serializable {
 	private static final long serialVersionUID = 1L;

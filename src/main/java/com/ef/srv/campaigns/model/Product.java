@@ -6,14 +6,16 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Product
  */
 
 @Builder
-@Data
+@Getter
+@Setter
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +27,7 @@ public class Product implements Serializable {
 	private BigDecimal TAE;
 
 	@JsonProperty("loanInsurance")
-	private Boolean loanInsurance;
+	private String loanInsurance;
 	
 	@JsonProperty("secondHolder")
 	private String secondHolder;

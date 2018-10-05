@@ -1,5 +1,7 @@
 package com.ef.srv.campaigns.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.ef.srv.campaigns.api.CampaignsController;
@@ -21,5 +23,5 @@ public interface CampaignsService {
 	 * 
 	 * @return
 	 */
-	CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call) throws EntityNotFoundException;
+	CampaignData v1CampaignsCampaignCodeGet(String campaignCode, HttpCall call,String authorization, String token,String campaign) throws EntityNotFoundException;
 }
