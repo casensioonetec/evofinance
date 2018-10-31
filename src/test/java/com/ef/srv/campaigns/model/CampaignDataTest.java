@@ -21,14 +21,14 @@ public class CampaignDataTest<PlainOldJavaObject> {
 	@Test
 	public void contextLoads() {
 		CampaignData data = new CampaignData(null, null, null, null, null, null);
-		CampaignData data2= new CampaignData("id",false,"","",false ,new ArrayList<Finality>());
+		CampaignData data2= new CampaignData("id","","","",false ,new ArrayList<Finality>());
 		
 		data.setDefaultCampaign(false);
 		data.setFinalities(new ArrayList<Finality>());
 		data.setForcedInsurance("si");
 		data.setId("id");
 		data.setPixel("pixel");
-		data.setVendor(false);
+		data.setChannelType("");
 		
 		data.getDefaultCampaign();
 		data.getFinalities();
@@ -36,7 +36,7 @@ public class CampaignDataTest<PlainOldJavaObject> {
 		data.getForcedInsurance();
 		data.getId();
 		data.getPixel();
-		data2.getVendor();
+		data2.getChannelType();
 		
 		List<Product>products= new ArrayList<>();
 		products.add(new Product(null, null, null, null, null, null, null, null, null, null, null, null, null, null));
