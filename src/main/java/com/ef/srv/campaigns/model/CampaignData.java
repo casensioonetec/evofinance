@@ -25,7 +25,7 @@ public class CampaignData implements Serializable {
 	private String id;
 
 	@JsonProperty("ChannelType")
-	private String ChannelType;
+	private String ChannelType; 
 	
 	@JsonProperty("pixel")
 	private String pixel;

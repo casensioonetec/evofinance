@@ -21,7 +21,7 @@ public class CampaignDataTest<PlainOldJavaObject> {
 	@Test
 	public void contextLoads() {
 		CampaignData data = new CampaignData(null, null, null, null, null, null);
-		CampaignData data2= new CampaignData("id","","","",false ,new ArrayList<Finality>());
+		CampaignData data2= new CampaignData("id","","","",false ,new ArrayList<Finality>()); 
 		
 		data.setDefaultCampaign(false);
 		data.setFinalities(new ArrayList<Finality>());
