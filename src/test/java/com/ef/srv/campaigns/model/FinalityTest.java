@@ -18,13 +18,15 @@ public class FinalityTest {
 	
 	@Test
 	public void test() {
-		Finality finalty= new Finality("as", "asdasd", new ArrayList<Product>());
+		Finality finalty= new Finality("as", "asdasd","9", new ArrayList<Product>());
 		finalty.setCode("code");
 		finalty.setName("name");
+		finalty.setOrder("order");
 		finalty.setProducts(new ArrayList<Product>());
 		
 		finalty.setCode("");
 		finalty.setName("");
+		finalty.setOrder("");
 		
 		finalty.getCode();
 		finalty.getName();

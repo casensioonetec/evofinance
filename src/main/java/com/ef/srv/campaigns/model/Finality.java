@@ -27,6 +27,9 @@ public class Finality implements Serializable {
 	@JsonProperty("name")
 	private String name;
 	
+	@JsonProperty("order")
+	private String order;
+	
 	
 	@Builder.Default
 	@JsonProperty("products")

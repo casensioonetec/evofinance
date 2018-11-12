@@ -43,7 +43,7 @@ public class CampaignDataTest<PlainOldJavaObject> {
 		
 		
 		List<Finality>finalities = new ArrayList<>();
-		finalities.add(new Finality("code","name", products));
+		finalities.add(new Finality("code","name", "order", products));
 		
 		data.setFinalities(finalities);
 	}
