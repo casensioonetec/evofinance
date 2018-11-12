@@ -20,7 +20,7 @@ public class FinalityTest {
 	public void test() {
 		Finality finalty= new Finality("as", "asdasd","9", new ArrayList<Product>());
 		finalty.setCode("code");
-		finalty.setName("name");
+		finalty.setName("name"); 
 		finalty.setOrder("order");
 		finalty.setProducts(new ArrayList<Product>());
 		
